@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaria Detection — Result</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 44px 40px;
+            max-width: 540px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .card h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 28px;
+            background: linear-gradient(90deg, #00d2ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ── Uploaded image ─────────────────────────────────── */
+        .image-wrapper {
+            margin-bottom: 28px;
+        }
+
+        .image-wrapper img {
+            max-width: 260px;
+            max-height: 260px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            object-fit: cover;
+        }
+
+        /* ── Result badge ───────────────────────────────────── */
+        .result-badge {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 14px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .result-badge.parasitized {
+            background: rgba(231, 76, 60, 0.18);
+            border: 1px solid rgba(231, 76, 60, 0.5);
+            color: #ff6b6b;
+        }
+
+        .result-badge.uninfected {
+            background: rgba(46, 204, 113, 0.18);
+            border: 1px solid rgba(46, 204, 113, 0.5);
+            color: #2ecc71;
+        }
+
+        /* ── Confidence ─────────────────────────────────────── */
+        .confidence {
+            font-size: 1rem;
+            color: #bbb;
+            margin-bottom: 32px;
+        }
+
+        .confidence strong {
+            color: #fff;
+            font-size: 1.15rem;
+        }
+
+        /* ── Button ─────────────────────────────────────────── */
+        .btn {
+            display: inline-block;
+            padding: 13px 36px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #7b2ff7, #00d2ff);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(123, 47, 247, 0.45);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>🔬 Detection Result</h1>
+
+        <div class="image-wrapper">
+            <img src="{{ image_url }}" alt="Uploaded cell image">
+        </div>
+
+        {% if label == "Parasitized" %}
+        <div class="result-badge parasitized">⚠️ {{ label }}</div>
+        {% else %}
+        <div class="result-badge uninfected">✅ {{ label }}</div>
+        {% endif %}
+
+        <div class="confidence">
+            Confidence: <strong>{{ confidence }}%</strong>
+        </div>
+
+        <a href="/" class="btn">⬆ Upload Another Image</a>
+    </div>
+</body>
+
+</html>
