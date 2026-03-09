@@ -8,13 +8,10 @@ A complete deep-learning pipeline that classifies microscopic blood smear images
 
 - [Overview](#overview)
 - [Deep Learning Architecture](#deep-learning-architecture)
-- [Dataset](#dataset)
-- [Project Structure](#project-structure)
 - [Installation](#installation)
-- [Training on Google Colab](#training-on-google-colab)
-- [Training Locally](#training-locally)
 - [Running the Flask Application](#running-the-flask-application)
 - [Example Prediction](#example-prediction)
+- [Evaluation Metrics](#evaluation-metrics)
 
 ---
 
@@ -55,52 +52,6 @@ Two models are implemented:
 
 ---
 
-## Dataset
-
-**NIH Malaria Cell Images Dataset** — ~27,558 microscopic cell images.
-
-| Class | Description | Count |
-|-------|------------|-------|
-| Parasitized | Malaria-positive cells | ~13,779 |
-| Uninfected | Healthy cells | ~13,779 |
-
-The dataset is **automatically downloaded** by the project scripts.
-
-Source: [NIH / NLM](https://ceb.nlm.nih.gov/repositories/malaria-datasets/)
-
----
-
-## Project Structure
-
-```
-malaria-detector-skillwallet/
-├── dataset/                    # Auto-downloaded images
-│   ├── Parasitized/
-│   └── Uninfected/
-├── models/
-│   └── malaria_model.h5        # Trained model (generated)
-├── notebooks/
-│   └── train_model_colab.ipynb  # Google Colab notebook
-├── src/
-│   ├── download_dataset.py     # Dataset downloader
-│   ├── preprocess_data.py      # Image preprocessing & augmentation
-│   ├── train_model.py          # Model training (CNN / MobileNetV2)
-│   ├── evaluate_model.py       # Metrics & visualisations
-│   └── predict.py              # Single-image inference
-├── web_app/
-│   ├── app.py                  # Flask application
-│   └── templates/
-│       ├── index.html          # Upload page
-│       └── result.html         # Prediction result page
-├── static/
-│   └── uploads/                # Uploaded images
-├── outputs/                    # Evaluation plots (generated)
-├── requirements.txt
-└── README.md
-```
-
----
-
 ## Installation
 
 ### Prerequisites
@@ -126,44 +77,9 @@ pip install -r requirements.txt
 
 ---
 
-## Training on Google Colab
-
-1. Open **`notebooks/train_model_colab.ipynb`** in [Google Colab](https://colab.research.google.com/).
-2. Go to **Runtime → Change runtime type → GPU (T4)**.
-3. Run all cells — the notebook will:
-   - Download the dataset automatically
-   - Preprocess & augment images
-   - Build and train the model
-   - Evaluate and generate plots
-   - Save `malaria_model.h5`
-4. Download the trained model and place it in `models/malaria_model.h5`.
-
----
-
-## Training Locally
-
-```bash
-# 1. Download the dataset
-python src/download_dataset.py
-
-# 2. Train with MobileNetV2 (default)
-cd src
-python train_model.py --model mobilenet --epochs 10
-
-# Or train with the custom CNN
-python train_model.py --model cnn --epochs 15
-
-# 3. Evaluate the model
-python evaluate_model.py
-```
-
-> ⚠️ Training on CPU (e.g. Mac without GPU) will be slow. Google Colab with GPU is recommended.
-
----
-
 ## Running the Flask Application
 
-Make sure you have a trained model at `models/malaria_model.h5`.
+Make sure you have a trained model at `models/malaria_model.h5` and you have placed the downloaded dataset correctly if you intend to evaluate against it.
 
 ```bash
 python web_app/app.py
@@ -174,23 +90,6 @@ Then open **http://127.0.0.1:5001** in your browser.
 1. Upload a microscopic blood smear image.
 2. Click **Analyse Image**.
 3. View the prediction and confidence score.
-
----
-
-## Deployment (Render)
-
-Machine Learning applications rely on large dependencies like TensorFlow, making them unsuitable for Serverless platforms like Vercel (which has a strict 250MB limit). We recommend a container-based app deployment service like **Render**.
-
-**Steps to deploy to Render:**
-
-1. Commit your code to a GitHub repository.
-2. Sign up on [Render](https://render.com/) and create a new **Web Service**.
-3. Connect your GitHub repository.
-4. Configure the service:
-   - **Environment:** `Python`
-   - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `gunicorn web_app.app:app`
-5. Click **Create Web Service**. Render will build and deploy your Malaria Detection app.
 
 ---
 
@@ -249,4 +148,4 @@ Plots saved in `outputs/`:
 
 ## License
 
-This project is for educational purposes. The NIH Malaria Dataset is in the public domain.
+This project is for educational purposes.
