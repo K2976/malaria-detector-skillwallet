@@ -177,15 +177,20 @@ Then open **http://127.0.0.1:5001** in your browser.
 
 ---
 
-## Deploying to Vercel
+## Deployment (Render)
 
-The application is configured to be deployed on Vercel out of the box using Serverless Functions.
+Machine Learning applications rely on large dependencies like TensorFlow, making them unsuitable for Serverless platforms like Vercel (which has a strict 250MB limit). We recommend a container-based app deployment service like **Render**.
+
+**Steps to deploy to Render:**
 
 1. Commit your code to a GitHub repository.
-2. Go to [Vercel](https://vercel.com/) and create a new project by importing your repository.
-3. No build command is necessary, the `vercel.json` file handles routing automatically.
-
-> **Note on Size Limitations:** Vercel has a strict uncompressed size limit of 250MB for serverless functions on the Hobby tier. Machine learning packages like TensorFlow are very large. We use `tensorflow-cpu` in `requirements.txt` to help reduce size, but it may still touch or exceed limits depending on Vercel's current Python container sizes. If deployment fails due to size limits, using a container-based platform like **Render** or **Heroku** is recommended.
+2. Sign up on [Render](https://render.com/) and create a new **Web Service**.
+3. Connect your GitHub repository.
+4. Configure the service:
+   - **Environment:** `Python`
+   - **Build Command:** `pip install -r requirements.txt`
+   - **Start Command:** `gunicorn web_app.app:app`
+5. Click **Create Web Service**. Render will build and deploy your Malaria Detection app.
 
 ---
 
