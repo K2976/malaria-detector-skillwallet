@@ -169,11 +169,23 @@ Make sure you have a trained model at `models/malaria_model.h5`.
 python web_app/app.py
 ```
 
-Then open **http://127.0.0.1:5000** in your browser.
+Then open **http://127.0.0.1:5001** in your browser.
 
 1. Upload a microscopic blood smear image.
 2. Click **Analyse Image**.
 3. View the prediction and confidence score.
+
+---
+
+## Deploying to Vercel
+
+The application is configured to be deployed on Vercel out of the box using Serverless Functions.
+
+1. Commit your code to a GitHub repository.
+2. Go to [Vercel](https://vercel.com/) and create a new project by importing your repository.
+3. No build command is necessary, the `vercel.json` file handles routing automatically.
+
+> **Note on Size Limitations:** Vercel has a strict uncompressed size limit of 250MB for serverless functions on the Hobby tier. Machine learning packages like TensorFlow are very large. We use `tensorflow-cpu` in `requirements.txt` to help reduce size, but it may still touch or exceed limits depending on Vercel's current Python container sizes. If deployment fails due to size limits, using a container-based platform like **Render** or **Heroku** is recommended.
 
 ---
 
