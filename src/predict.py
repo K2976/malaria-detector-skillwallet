@@ -14,6 +14,10 @@ Usage
 
 import os
 import sys
+
+# Ensure Keras 2 legacy behavior is used if using TensorFlow >= 2.16
+os.environ["TF_USE_LEGACY_KERAS"] = "1"
+
 import numpy as np
 import cv2
 from tensorflow.keras.models import load_model
@@ -21,9 +25,9 @@ from tensorflow.keras.models import load_model
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-IMAGE_SIZE = (224, 224)
+IMAGE_SIZE = (130, 130)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEFAULT_MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "malaria_model.h5")
+DEFAULT_MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "malaria_detector.h5")
 
 # Class labels — these must match the order used during training.
 # flow_from_directory sorts alphabetically:  Parasitized=0, Uninfected=1
