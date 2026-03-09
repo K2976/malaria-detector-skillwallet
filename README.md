@@ -140,13 +140,24 @@ pip install -r requirements.txt
 
 ---
 
-## Using the Pre-trained Model
+## Training Locally
 
-This repository is already configured to use a pre-trained model (`models/malaria_detector.h5`) expecting `130x130` pixel cell images.
+```bash
+# 1. Download the dataset
+python src/download_dataset.py
 
-There is no need to download the dataset or train the model locally to use the Flask web application!
+# 2. Train with MobileNetV2 (default)
+cd src
+python train_model.py --model mobilenet --epochs 10
 
-*(Note: The scripts for downloading the NIH dataset and training from scratch are left in the `src/` folder for educational purposes.)*
+# Or train with the custom CNN
+python train_model.py --model cnn --epochs 15
+
+# 3. Evaluate the model
+python evaluate_model.py
+```
+
+> ⚠️ Training on CPU (e.g. Mac without GPU) will be slow. Google Colab with GPU is recommended.
 
 ---
 
